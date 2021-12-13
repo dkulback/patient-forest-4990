@@ -16,9 +16,9 @@ RSpec.describe 'studio index page', type: :feature do
     within '.studio' do
       expect(page).to have_content(universal.name)
     end
-    within '.moives' do
+    within '.movies' do
       expect(page).to have_content(movie_1.title)
-      expect(page).to have_content(movie_2.name)
+      expect(page).to have_content(movie_2.title)
     end
   end
 end
