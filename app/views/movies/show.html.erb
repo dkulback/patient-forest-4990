@@ -11,3 +11,14 @@
 <div class ="actor-age">
   <p>Average age: <%= @movie.actors.average_age %></p>
 </div>
+
+
+<div class ="add-pet" >
+  <h3>Add a Actor to this Movie</h3>
+  <%= form_with url: "/actors/#{@movie.id}", method: :post, local: true, class: "add-actor" do |f| %>
+    <%= f.label :search %>
+    <%= f.text_field :search %>
+    <%= f.submit "Add This Actor" %>
+  <% end %>
+
+</div>
