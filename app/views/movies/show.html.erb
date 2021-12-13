@@ -4,7 +4,10 @@
 <%= @movie.genre %>
 </div>
 <div class ="actors">
-  <% @movie.actors.each do |actor| %>
+  <% @movie.actors.age_sort.each do |actor| %>
     <%= actor.name %>
   <% end %>
+</div>
+<div class ="actor-age">
+  <p>Average age: <%= @movie.actors.average_age %></p>
 </div>
