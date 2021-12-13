@@ -1,0 +1,10 @@
+<div class = "movie">
+<%= @movie.title %>
+<%= @movie.creation_year %>
+<%= @movie.genre %>
+</div>
+<div class ="actors">
+  <% @movie.actors.each do |actor| %>
+    <%= actor.name %>
+  <% end %>
+</div>

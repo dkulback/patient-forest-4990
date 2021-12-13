@@ -13,16 +13,27 @@ RSpec.describe 'movies show page' do
     universal = Studio.create!(name: 'Universal Studios', location: 'Hollywood')
     movie_1 = universal.movies.create!(title: 'Raiders of the Lost Ark', creation_year: 1981, genre: 'Action/Adventure')
     movie_2 = universal.movies.create!(title: 'Shrek', creation_year: 2001, genre: 'Comedy')
-    harrison = actor.create!(name: 'Harrison Ford', age: 67)
-    mike = actor.create!(name: 'Michael Myers', age: 63)
+    harrison = Actor.create!(name: 'Harrison Ford', age: 67)
+    mike = Actor.create!(name: 'Michael Myers', age: 63)
 
     visit "/movies/#{movie_1.id}"
+    within '.movie' do
+      expect(page).to have_content(movie_1.title)
+      expect(page).to have_content(movie_1.creation_year)
+      expect(page).to have_content(movie_1.genre)
+    end
+  end
+  it 'lists the actors in the movie' do
+    universal = Studio.create!(name: 'Universal Studios', location: 'Hollywood')
+    movie_1 = universal.movies.create!(title: 'Raiders of the Lost Ark', creation_year: 1981, genre: 'Action/Adventure')
+    harrison = Actor.create!(name: 'Harrison Ford', age: 67)
+    mike = Actor.create!(name: 'Michael Myers', age: 63)
+    movie_1.actors << harrison
+    movie_1.actors << mike
 
-    expect(page).to have_content(movie_1.title)
-    expect(page).to have_content(movie_1.creation_year)
-    expect(page).to have_content(movie_1.genre)
-    expect(page).to have_content(movie_2.title)
-    expect(page).to have_content(movie_2.creation_year)
-    expect(page).to have_content(movie_2.genre)
+    visit "/movies/#{movie_1.id}"
+    expected = [mike.name, harrison.name].join(" ")
+    expect(page.find_all('.actors').map(&:text).join).to eq(expected)
+    expect(page).to have_content("Average age: #{Actor.average_age}")
   end
 end
